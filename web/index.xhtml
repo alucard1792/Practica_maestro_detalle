@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <style>
+            #bloque1{
+                width: 50%;
+                float: left;
+            }
+
+            #bloque2{
+                width: 50%;
+                float: right;
+
+            }
+
+            body{
+                text-align: center;
+                margin:auto;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+
+            <div id="bloque1">
+                <table cellpadding="1" border="1">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>nombre</th>
+                            <th>precio</th>
+                            <th>stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat var="lp" value="#{listarProductos.listaProductos}">
+                            <tr>
+                                <td><h:outputText value="#{lp.id}"></h:outputText></td>
+                                <td><h:outputText value="#{lp.nombre}"></h:outputText></td>
+                                <td><h:outputText value="#{lp.precio}"></h:outputText></td>
+                                <td><h:outputText value="#{lp.stock}"></h:outputText></td>
+                                <td><h:commandButton value="añadir a la factura" action="#{crearFactura.agregarProductoFactura(lp)}"></h:commandButton></td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="bloque2">
+                <table cellpadding="1" border="1">
+                    <thead>
+                        <tr>
+                            <th>fecha</th>
+                            <th>cantidad</th>
+                            <th>precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat var="lfd" value="#{crearFactura.listaFacturasCustom}">
+                            <tr>
+                                <td><h:outputText value="#{lfd.facturaId.fecha}"></h:outputText></td>
+                                <td><h:outputText value="#{lfd.facturaDetalle.cantidad}"></h:outputText></td>
+                                <td><h:outputText value="#{lfd.facturaDetalle.precio}"></h:outputText></td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+                <h:commandButton value="guardar factura" action="#{crearFactura.registrarFactura()}"></h:commandButton>
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+
