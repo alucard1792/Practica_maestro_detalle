@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
         <style>
@@ -63,6 +64,12 @@
                                 <th>nombre producto</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <td>total: </td>
+                                <td><h:outputText id="totalCompra" value="#{crearFactura.totalCompra}"></h:outputText></td>
+                            </tr>
+                        </tfoot>
                         <tbody>
                             <ui:repeat var="fdl" value="#{crearFactura.factura.facturaDetalleList}">
                                 <tr>
@@ -74,8 +81,13 @@
                         </tbody>
                     </table>
                     <h:commandButton value="guardar factura" action="#{crearFactura.registrarFactura()}"></h:commandButton>
+                    <h:commandButton id="botonCalcular" value="Total factura hasta el momento" action="#{crearFactura.calcularTotal()}">
+                        <f:ajax event="action" render="totalCompra"></f:ajax>
+                    </h:commandButton>
                 </h:panelGroup>
             </div>
+
+            
 
         </h:form>
     </h:body>

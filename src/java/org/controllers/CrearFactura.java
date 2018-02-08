@@ -37,8 +37,8 @@ public class CrearFactura implements Serializable {
     private Conversation conversacion;
     private FacturaDetalle facturaDetalle;
     private Factura factura;
+    private Integer totalCompra = 0;
     private List<FacturaDetalle> listaFacturaDetalle;
-    private FacturaCustom facturaCustom;
 
     public CrearFactura() {
 
@@ -54,34 +54,29 @@ public class CrearFactura implements Serializable {
     }
 
     public void agregarProductoFactura(Producto producto) {
-        if(factura == null){
+        iniciarConversacion();
+        if (factura == null) {
             factura = new Factura();
             factura.setFecha(new Date());
 
         }
         if (validarStock(producto)) {
-            facturaDetalle = new FacturaDetalle();
-            facturaDetalle.setCantidad(1);
-            facturaDetalle.setPrecio(producto.getPrecio());
-            facturaDetalle.setProductoId(producto);
+            facturaDetalle = new FacturaDetalle(null, 1, producto.getPrecio(), factura, producto);
             listaFacturaDetalle.add(facturaDetalle);
             factura.setFacturaDetalleList(listaFacturaDetalle);
-            facturaCustom = new FacturaCustom();            
             producto.setStock(producto.getStock() - 1);
             productoFacadeLocal.edit(producto);
             System.out.println(producto.getNombre());
-            iniciarConversacion();
 
         }
 
     }
 
     public void registrarFactura() {
-        /*        for (Factura factura : listaFacturas) {
         facturaFacadeLocal.create(factura);
-        }*/
         terminarConversacion();
         factura = null;
+        totalCompra = 0;
     }
 
     public boolean validarStock(Producto producto) {
@@ -91,6 +86,13 @@ public class CrearFactura implements Serializable {
         }
         return bandera;
 
+    }
+    
+    public void calcularTotal(){
+        for(FacturaDetalle facturaDetalle:factura.getFacturaDetalleList()){
+            totalCompra += facturaDetalle.getPrecio();
+        }
+        
     }
 
     private void iniciarConversacion() {
@@ -132,5 +134,13 @@ public class CrearFactura implements Serializable {
     public void setListaFacturaDetalle(List<FacturaDetalle> listaFacturaDetalle) {
         this.listaFacturaDetalle = listaFacturaDetalle;
     }
-    
+
+    public int getTotalCompra() {
+        return totalCompra;
+    }
+
+    public void setTotalCompra(int totalCompra) {
+        this.totalCompra = totalCompra;
+    }
+
 }
