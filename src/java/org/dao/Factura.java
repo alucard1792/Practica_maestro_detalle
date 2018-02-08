@@ -90,11 +90,6 @@ public class Factura implements Serializable {
         this.facturaDetalleList = facturaDetalleList;
     }
     
-    public void setFacturaDetalleList(FacturaDetalle facturaDetalle) {
-        this.facturaDetalleList.add(facturaDetalle);
-    }
-
-
     @Override
     public int hashCode() {
         int hash = 0;
